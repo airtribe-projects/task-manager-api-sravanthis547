@@ -1,15 +1,20 @@
+require("dotenv").config();
 const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
-const port = 3000;
+const { logger } = require("./middleare/logger/logger");
+const tasksRoute = require("./routes/tasksRouter");
 
+app.use(logger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(tasksRoute);
 
-app.listen(port, (err) => {
+PORT = process.env.PORT;
+app.listen(PORT, (err) => {
   if (err) {
-    return console.log("Something bad happened", err);
+    res.status(500).send("Internal Server error.");
   }
-  console.log(`Server is listening on ${port}`);
+  console.log(`app listening on port ${PORT}`);
 });
-
 module.exports = app;
